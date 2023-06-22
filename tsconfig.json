@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "module": "es6",
+      "target": "es6",
+      "allowJs": true, // поддержка JS
+      "moduleResolution": "node",
+      "alwaysStrict": true, //Гарантирует, что ваши файлы анализируются в строгом режиме ECMAScript, и выдает «use strict» для каждого исходного файла.
+    "strictNullChecks": true,             // Используется в паре с strictPropertyInitialization
+    "strictPropertyInitialization": true, //Если установлено значение true, TypeScript выдаст ошибку, если свойство класса было объявлено, но не задано в конструкторе. 
+    //"allowSyntheticDefaultImports": true, //Разрешить синтетический импорт по умолчанию import React from "react";
+    //"esModuleInterop": true
+    //"forceConsistentCasingInFileNames": true //
+    }
+  }

@@ -1,0 +1,11 @@
+@import './style/commom.blocks/html/html.scss';
+@import './style/commom.blocks/body/body.scss';
+@import './style/commom.blocks/html/__body/html__body.scss';
+@import './style/fonts.scss';
+@import './style/var1.scss';
+@import './style/var2.scss';
+body {
+    background: $color url('./images/pic.jpg');
+    font-size: $width;
+    font-family: 'samba';
+}
