@@ -1,14 +1,16 @@
 import "./index.html";
 import "./style.scss";
-//import { sum } from './modules/calc.mjs';
 import { Canvas } from './modules/Canvas';
+import { Paddle } from './modules/Paddle';
 
 let canvas = new Canvas('myCanvas', document.body);
-canvas.create();
 
+console.log(canvas.elem);
 window.onload = function():void{
     init();
 }
 function init():void{
+        canvas.create();
+        
 
 }
