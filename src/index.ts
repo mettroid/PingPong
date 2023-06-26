@@ -7,8 +7,8 @@ import { Paddle } from './modules/Paddle';
 const canvas = new Canvas('myCanvas', document.body, "rgb(4, 255, 242)");
 
 
-let paddleLeft: any, paddleRight: any;
-let buttonEasy: any, buttonNormal: any, buttonDifficult: any;
+let paddleLeft: Paddle, paddleRight: Paddle;
+let buttonEasy: Button, buttonNormal: Button, buttonDifficult: Button;
 let ball: any;
 let myReq: DOMHighResTimeStamp;
 
@@ -36,6 +36,8 @@ function loop(){
             canvas.ctx.scale( window.innerWidth / canvas.w, window.innerHeight / canvas.h ); // делим на первоначальный размер холста
 
             buttonEasy.draw( canvas );
+            buttonNormal.draw( canvas );
+            buttonDifficult.draw( canvas );
             paddleLeft.draw( canvas.ctx );
             paddleRight.draw( canvas.ctx );
 
@@ -49,7 +51,9 @@ function init(): void {
         canvas.create();
         paddleLeft = new Paddle("paddleLeft", 0, (canvas.elem.height - 100) / 2, 30, 100, "rgb(0, 62, 248)");
         paddleRight = new Paddle("paddleRight", canvas.elem.width - 30, (canvas.elem.height - 100) / 2, 30, 100, "rgb(0, 62, 248)");
-        buttonEasy = new Button( "btnEasy", (canvas.elem.width - 150) / 2, 300, 170, 60, 10, "rgb(0,0,0)", "rgb(236, 7, 7)", 40, 2, "samba", "rgb(50, 1, 107)", "Easy" );
-        
+        buttonEasy = new Button( "btnEasy", canvas.elem.width / 2 - 150, 350, 150, 60, 10, "rgb(0,0,0)", "rgb(243, 227, 7)", 40, 2, "samba", "rgb(50, 1, 107)", "Easy" );
+        buttonNormal = new Button( "btnNormal", (canvas.elem.width - 150) / 2, canvas.elem.height / 2 - 30, 150, 60, 10, "rgb(0,0,0)", "rgb(63, 243, 9)", 40, 2, "samba", "rgb(50, 1, 107)", "Normal" );
+        buttonDifficult = new Button( "buttonDifficult", canvas.elem.width / 2, 600, 150, 60, 10, "rgb(0,0,0)", "rgb(243, 4, 4)", 40, 2, "samba", "rgb(50, 1, 107)", "Difficult" );
+
         loop();
 }

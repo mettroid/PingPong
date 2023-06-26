@@ -3,7 +3,7 @@
       "outDir": "./dist/", // куда компилировать
       "sourceMap": true, // Создать source map файлы для готовых файлов JavaScript (хороошо подходит для дебаггинга)
       "removeComments": true, //Игнорировать комментарии
-      "noImplicitAny": true,
+      "noImplicitAny": true, // Будет выводиться ошибка , когда отсутствуют аннотации типов
       "module": "es6",
       "target": "es6",
       "allowJs": true,     // Позволяет компилировать JS-файлы
