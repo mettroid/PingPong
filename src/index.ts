@@ -3,6 +3,7 @@ import "./style.scss";
 import { Canvas } from './modules/Canvas';
 import { Button } from './modules/Button';
 import { Paddle } from './modules/Paddle';
+import { Game } from './modules/Game';
 
 const canvas = new Canvas('myCanvas', document.body, "rgb(4, 255, 242)");
 
@@ -11,6 +12,7 @@ let paddleLeft: Paddle, paddleRight: Paddle;
 let buttonEasy: Button, buttonNormal: Button, buttonDifficult: Button;
 let ball: any;
 let myReq: DOMHighResTimeStamp;
+let game: Game;
 
 
 window.onload = function():void{
@@ -35,11 +37,23 @@ function loop(){
             canvas.ctx.clearRect( 0, 0, canvas.elem.width, canvas.elem.height );
             canvas.ctx.scale( window.innerWidth / canvas.w, window.innerHeight / canvas.h ); // делим на первоначальный размер холста
 
-            buttonEasy.draw( canvas );
-            buttonNormal.draw( canvas );
-            buttonDifficult.draw( canvas );
-            paddleLeft.draw( canvas.ctx );
-            paddleRight.draw( canvas.ctx );
+            switch( game.phase ){
+                case "screen_saver":
+                    buttonEasy.draw( canvas );
+                    buttonNormal.draw( canvas );
+                    buttonDifficult.draw( canvas );
+                break;
+                case "a_game":
+                    paddleLeft.draw( canvas.ctx );
+                    paddleRight.draw( canvas.ctx );
+                break;
+                case "game_over":
+
+                break;
+                case "win":
+
+                break;
+            }
 
             canvas.ctx.restore();
             
@@ -55,5 +69,6 @@ function init(): void {
         buttonNormal = new Button( "btnNormal", (canvas.elem.width - 150) / 2, canvas.elem.height / 2 - 30, 150, 60, 10, "rgb(0,0,0)", "rgb(63, 243, 9)", 40, 2, "samba", "rgb(50, 1, 107)", "Normal" );
         buttonDifficult = new Button( "buttonDifficult", canvas.elem.width / 2, 600, 150, 60, 10, "rgb(0,0,0)", "rgb(243, 4, 4)", 40, 2, "samba", "rgb(50, 1, 107)", "Difficult" );
 
+        game = new Game( "screen_saver" );
         loop();
 }

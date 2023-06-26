@@ -1,8 +1,20 @@
 class Game {
-    lives: number;
-    scores!: number;
-    constructor(lives: number){
-        this.lives = lives;
+    public lives!: number;
+    private scores!: number;
+    constructor( public phase: "screen_saver" | "a_game" | "game_over" | "win" ){
+        this.phase = phase;
+    }
+    draw_screen_saver(){
+
+    }
+    draw_a_game(){
+
+    }
+    draw_game_over(){
+
+    }
+    draw_win(){
+
     }
 }
 export { Game }
