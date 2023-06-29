@@ -1,4 +1,5 @@
 class Button {
+    public tempColor = '';
     constructor( readonly id: string, 
                  public xpos: number, 
                  public ypos: number, 
