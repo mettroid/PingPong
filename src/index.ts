@@ -34,13 +34,12 @@ function loop(){
 
             //canvas.elem.width = canvas.elem.clientWidth;
             //canvas.elem.height = canvas.elem.clientHeight;            
-            let scaleW = canvas.elem.clientWidth / canvas.w;
-            let scaleH = canvas.elem.clientHeight / canvas.h;
+            //let scaleW = canvas.elem.clientWidth / canvas.w;
+            //let scaleH = canvas.elem.clientHeight / canvas.h;
              
             canvas.elem.width = canvas.elem.clientWidth;
             canvas.elem.height = canvas.elem.clientHeight;
             canvas.ctx.clearRect( 0, 0, canvas.elem.width, canvas.elem.height );
-            //canvas.ctx.scale( scaleW , scaleH );
 
             let min: number = Math.min( canvas.elem.width, canvas.elem.height );
             //canvas.resize();
@@ -87,9 +86,9 @@ function init(): void {
         
         let min: number = Math.min( canvas.elem.width, canvas.elem.height );
 
-        buttonEasy = new Button( "btnEasy",  0.3, 0.3, 0.3, 0.1, 10, "rgb(0,0,0)", "rgb(243, 227, 7)", 40, 2, "samba", "rgb(50, 1, 107)", "Easy" );
-        buttonNormal = new Button( "btnNormal", 0.5, 0.5, 0.3, 0.1, 10, "rgb(0,0,0)", "rgb(63, 243, 9)", 40, 2, "samba", "rgb(50, 1, 107)", "Normal" );
-        buttonDifficult = new Button( "btnDifficult", 0.7, 0.7, 0.3, 0.1, 10, "rgb(0,0,0)", "rgb(243, 4, 4)", 40, 2, "samba", "rgb(50, 1, 107)", "Difficult" );
+        buttonEasy = new Button( "btnEasy",  0.3, 0.3, 0.3, 0.1, 0.01, "rgb(0,0,0)", "rgb(243, 227, 7)", 0.08, 2, "samba", "rgb(50, 1, 107)", "Easy" );
+        buttonNormal = new Button( "btnNormal", 0.5, 0.5, 0.3, 0.1, 0.01, "rgb(0,0,0)", "rgb(63, 243, 9)", 0.08, 2, "samba", "rgb(50, 1, 107)", "Normal" );
+        buttonDifficult = new Button( "btnDifficult", 0.7, 0.7, 0.3, 0.1, 0.01, "rgb(0,0,0)", "rgb(243, 4, 4)", 0.08, 2, "samba", "rgb(50, 1, 107)", "Difficult" );
 
         game = new Game( "screen_saver" );
 
@@ -97,5 +96,8 @@ function init(): void {
 
         canvas.elem.addEventListener( 'mousemove', eventsMenu );
 
+        document.addEventListener('resize', function(){
+
+        });
         loop();
 }

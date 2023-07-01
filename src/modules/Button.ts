@@ -6,10 +6,10 @@ class Button {
                  public yRatio: number, 
                  public wRatio: number, 
                  public hRatio: number, 
-                 public borderWidth: number, 
+                 public borderWidthRatio: number, 
                  public borderColor: string, 
                  public buttonColor: string, 
-                 public fontSize: number,
+                 public fontSizeRatio: number,
                  public fontWeight: number,
                  public fontFamily: string,
                  public fontColor: string,
@@ -19,10 +19,10 @@ class Button {
                     this.yRatio = yRatio;
                     this.wRatio = wRatio;
                     this.hRatio = hRatio;
-                    this.borderWidth = borderWidth;
+                    this.borderWidthRatio = borderWidthRatio;
                     this.borderColor = borderColor;
                     this.buttonColor = buttonColor;
-                    this.fontSize = fontSize;
+                    this.fontSizeRatio = fontSizeRatio;
                     this.fontWeight = fontWeight;
                     this.fontFamily = fontFamily;
                     this.fontColor = fontColor;
@@ -36,9 +36,8 @@ class Button {
     }
     private button( canvas: any, min: number ){
 
-
         canvas.ctx.save();
-        canvas.ctx.lineWidth = this.borderWidth;
+        canvas.ctx.lineWidth = this.currCoords.borderWidth;
         canvas.ctx.strokeStyle = this.borderColor;
         canvas.ctx.fillStyle = this.buttonColor;
         canvas.ctx.beginPath();
@@ -47,7 +46,6 @@ class Button {
         canvas.ctx.stroke();
         canvas.ctx.restore();
 
-        console.log( this.currCoords.h );
     }
     private text( canvas: any, min: number ){
         canvas.ctx.save();
@@ -55,8 +53,8 @@ class Button {
         canvas.ctx.textBaseline = "middle";
         canvas.ctx.strokeStyle = this.fontColor;
         canvas.ctx.lineWidth = this.fontWeight;
-        canvas.ctx.font = `${this.fontSize}px ${this.fontFamily}`; 
-        //canvas.ctx.strokeText( this.fontText, this.xpos + this.w / 2, this.ypos + this.h / 2 );
+        canvas.ctx.font = `${this.fontSizeRatio * min }px ${this.fontFamily}`; 
+        canvas.ctx.strokeText( this.fontText, this.currCoords.xpos + (this.currCoords.w / 2) , this.currCoords.ypos + (this.currCoords.h / 2) );
         canvas.ctx.restore();
     }
     private setCoords( canvas: any, min: number ){
@@ -65,6 +63,8 @@ class Button {
         this.currCoords.h = min * this.hRatio;        
         this.currCoords.xpos = (canvas.elem.width * this.xRatio) - (this.currCoords.w / 2) ;
         this.currCoords.ypos = (canvas.elem.height * this.yRatio) - (this.currCoords.h / 2) ;
+        this.currCoords.borderWidth = this.borderWidthRatio * min;
+
     }
 }
 export { Button }
