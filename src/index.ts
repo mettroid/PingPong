@@ -40,9 +40,9 @@ function loop(){
             canvas.elem.width = canvas.elem.clientWidth;
             canvas.elem.height = canvas.elem.clientHeight;
             canvas.ctx.clearRect( 0, 0, canvas.elem.width, canvas.elem.height );
-            canvas.ctx.scale( scaleW , scaleH );
+            //canvas.ctx.scale( scaleW , scaleH );
 
-
+            let min: number = Math.min( canvas.elem.width, canvas.elem.height );
             //canvas.resize();
             //game.xCorrection = scaleW;// window.innerWidth / canvas.w;
             //game.yCorrection = scaleH;// window.innerHeight /canvas.h;
@@ -58,9 +58,9 @@ function loop(){
             //console.log(window.devicePixelRatio);
             switch( game.phase ){
                 case "screen_saver":
-                    buttonEasy.draw( canvas );
-                    buttonNormal.draw( canvas );
-                    buttonDifficult.draw( canvas );
+                    buttonEasy.draw( canvas, min );
+                    buttonNormal.draw( canvas, min );
+                    buttonDifficult.draw( canvas, min );
                 break;
                 case "a_game":
                     paddleLeft.draw( canvas.ctx );
@@ -85,9 +85,11 @@ function init(): void {
         paddleLeft = new Paddle("paddleLeft", 0, (canvas.elem.height - 100) / 2, 30, 100, "rgb(0, 62, 248)");
         paddleRight = new Paddle("paddleRight", canvas.elem.width - 30, (canvas.elem.height - 100) / 2, 30, 100, "rgb(0, 62, 248)");
         
-        buttonEasy = new Button( "btnEasy", canvas.elem.width / 2 - 150, 350 , 150, 60, 10, "rgb(0,0,0)", "rgb(243, 227, 7)", 40, 2, "samba", "rgb(50, 1, 107)", "Easy" );
-        buttonNormal = new Button( "btnNormal", (canvas.elem.width - 150) / 2, canvas.elem.height / 2 - 30, 150, 60, 10, "rgb(0,0,0)", "rgb(63, 243, 9)", 40, 2, "samba", "rgb(50, 1, 107)", "Normal" );
-        buttonDifficult = new Button( "btnDifficult", canvas.elem.width / 2, 600, 150, 60, 10, "rgb(0,0,0)", "rgb(243, 4, 4)", 40, 2, "samba", "rgb(50, 1, 107)", "Difficult" );
+        let min: number = Math.min( canvas.elem.width, canvas.elem.height );
+
+        buttonEasy = new Button( "btnEasy",  0.3, 0.3, 0.3, 0.1, 10, "rgb(0,0,0)", "rgb(243, 227, 7)", 40, 2, "samba", "rgb(50, 1, 107)", "Easy" );
+        buttonNormal = new Button( "btnNormal", 0.5, 0.5, 0.3, 0.1, 10, "rgb(0,0,0)", "rgb(63, 243, 9)", 40, 2, "samba", "rgb(50, 1, 107)", "Normal" );
+        buttonDifficult = new Button( "btnDifficult", 0.7, 0.7, 0.3, 0.1, 10, "rgb(0,0,0)", "rgb(243, 4, 4)", 40, 2, "samba", "rgb(50, 1, 107)", "Difficult" );
 
         game = new Game( "screen_saver" );
 
