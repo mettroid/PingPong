@@ -23,6 +23,7 @@ function loop(){
         let deltaTime: number;
         let correction: number;
         let fps: number;
+        let min: number;
         function frameLoop( currTime: DOMHighResTimeStamp ): void {
             myReq = window.requestAnimationFrame(frameLoop);
 
@@ -30,7 +31,8 @@ function loop(){
             correction = deltaTime / 1000;      //получаем разницу в секундах, с помощью этого коэфициента будем стабилизировать скорость игры
             fps = 1 / correction;      // получим fps
             
-            canvas.ctx.save();
+            
+            //canvas.ctx.save();
 
             //canvas.elem.width = canvas.elem.clientWidth;
             //canvas.elem.height = canvas.elem.clientHeight;            
@@ -41,7 +43,7 @@ function loop(){
             canvas.elem.height = canvas.elem.clientHeight;
             canvas.ctx.clearRect( 0, 0, canvas.elem.width, canvas.elem.height );
 
-            let min: number = Math.min( canvas.elem.width, canvas.elem.height );
+             
             //canvas.resize();
             //game.xCorrection = scaleW;// window.innerWidth / canvas.w;
             //game.yCorrection = scaleH;// window.innerHeight /canvas.h;
@@ -57,6 +59,7 @@ function loop(){
             //console.log(window.devicePixelRatio);
             switch( game.phase ){
                 case "screen_saver":
+                    min = Math.min( canvas.elem.width, canvas.elem.height );
                     buttonEasy.draw( canvas, min );
                     buttonNormal.draw( canvas, min );
                     buttonDifficult.draw( canvas, min );
@@ -95,6 +98,8 @@ function init(): void {
         eventsMenu = new EventsMenu( game, canvas, buttonEasy, buttonNormal, buttonDifficult );
 
         canvas.elem.addEventListener( 'mousemove', eventsMenu );
+        canvas.elem.addEventListener( 'mousedown', eventsMenu );
+        canvas.elem.addEventListener( 'mouseup',eventsMenu );
 
         document.addEventListener('resize', function(){
 
