@@ -31,42 +31,51 @@ function loop(){
             correction = deltaTime / 1000;      //получаем разницу в секундах, с помощью этого коэфициента будем стабилизировать скорость игры
             fps = 1 / correction;      // получим fps
             
-            
-            //canvas.ctx.save();
-
-            //canvas.elem.width = canvas.elem.clientWidth;
-            //canvas.elem.height = canvas.elem.clientHeight;            
-            //let scaleW = canvas.elem.clientWidth / canvas.w;
-            //let scaleH = canvas.elem.clientHeight / canvas.h;
-             
-            canvas.elem.width = canvas.elem.clientWidth;
-            canvas.elem.height = canvas.elem.clientHeight;
-            canvas.ctx.clearRect( 0, 0, canvas.elem.width, canvas.elem.height );
-
-             
-            //canvas.resize();
-            //game.xCorrection = scaleW;// window.innerWidth / canvas.w;
-            //game.yCorrection = scaleH;// window.innerHeight /canvas.h;
-            
-            //console.log( game.xCorrection );
-            //canvas.elem.requestFullscreen();
             let pixelRatio = window.devicePixelRatio; //отношение разрешения дисплея текущего устройства в физических пикселях к разрешению в логических (CSS) пикселях
+
             let colDepth = window.screen.colorDepth;  // глубина цвета обычно 24
             let pixDepth = window.screen.pixelDepth  // глудина битов на пиксель
-            //console.log(pixelRatio);
+            //console.log(pixelRatio + " " + canvas.elem.clientWidth);
             //console.log(colDepth);
             //console.log(pixDepth);
             //console.log(window.devicePixelRatio);
             switch( game.phase ){
-                case "screen_saver":
+                case "screen_saver":           
+                 canvas.elem.width = canvas.elem.clientWidth;
+                 canvas.elem.height = canvas.elem.clientHeight;             
+            canvas.ctx.beginPath();
+            canvas.ctx.arc( 100 , 100, 25, 0, Math.PI*2 );
+            canvas.ctx.stroke();
                     min = Math.min( canvas.elem.width, canvas.elem.height );
                     buttonEasy.draw( canvas, min );
                     buttonNormal.draw( canvas, min );
                     buttonDifficult.draw( canvas, min );
                 break;
                 case "a_game":
+                    canvas.elem.width = pixelRatio * canvas.elem.clientWidth;
+                    canvas.elem.height = pixelRatio * canvas.elem.clientHeight; 
+                    //console.log(canvas.defaultWidth / canvas.elem.width);
+
+                    var gameWidth = canvas.elem.width;
+                    var gameHeight = canvas.elem.height;
+                    var scaleToFitX = gameWidth / 1920;
+                    var scaleToFitY = gameHeight / 1080;
+                   
+                    var currentScreenRatio = gameWidth / gameHeight;
+                    var optimRatio = Math.min(scaleToFitX, scaleToFitY);
+                   
+                    if(currentScreenRatio >= 1.77){
+                        console.log(currentScreenRatio);
+                    }
+
+                    canvas.ctx.scale( optimRatio , optimRatio );
+                    
+                    canvas.ctx.beginPath();
+                    canvas.ctx.arc( 100 , 100, 25, 0, Math.PI*2 );
+                    canvas.ctx.stroke();
                     paddleLeft.draw( canvas.ctx );
                     paddleRight.draw( canvas.ctx );
+                    canvas.ctx.restore();
                 break;
                 case "game_over":
 
@@ -84,10 +93,8 @@ function loop(){
 }
 function init(): void {
         canvas.create();
-        paddleLeft = new Paddle("paddleLeft", 0, (canvas.elem.height - 100) / 2, 30, 100, "rgb(0, 62, 248)");
-        paddleRight = new Paddle("paddleRight", canvas.elem.width - 30, (canvas.elem.height - 100) / 2, 30, 100, "rgb(0, 62, 248)");
-        
-        let min: number = Math.min( canvas.elem.width, canvas.elem.height );
+        paddleLeft = new Paddle("paddleLeft", 0, (canvas.defaultHeight - 100) / 2, 30, 100, "rgb(0, 62, 248)");
+        paddleRight = new Paddle("paddleRight", canvas.defaultWidth - 30, (canvas.defaultHeight - 100) / 2, 30, 100, "rgb(0, 62, 248)");
 
         buttonEasy = new Button( "btnEasy",  0.3, 0.3, 0.3, 0.1, 0.01, "rgb(0,0,0)", "rgb(243, 227, 7)", 0.08, 2, "samba", "rgb(50, 1, 107)", "Easy" );
         buttonNormal = new Button( "btnNormal", 0.5, 0.5, 0.3, 0.1, 0.01, "rgb(0,0,0)", "rgb(63, 243, 9)", 0.08, 2, "samba", "rgb(50, 1, 107)", "Normal" );
