@@ -1,6 +1,8 @@
 class Button {
+    [index: string]: any;
     public tempColor = '';
-    public currCoords: any = {};
+    public coordsForDraw: any = {};
+    public coordsForMouse: any = {};
     constructor( readonly id: string, 
                  public xRatio: number, 
                  public yRatio: number, 
@@ -28,20 +30,23 @@ class Button {
                     this.fontColor = fontColor;
                     this.fontText = fontText;
     }
-    draw( canvas: any, min: number ): void {
-        this.setCoords( canvas, min );
-        this.button( canvas, min );
-        this.text( canvas, min );
+    draw( canvas: any ): void {
+        let minPhysPx: number = Math.min( canvas.elem.width, canvas.elem.height );          // наименьшая из сторон экрана в физических пикселях
+        let minCssPx: number = Math.min( canvas.elem.clientWidth, canvas.elem.clientHeight ); // наименьшая из сторон экрана в CSS пикселях
+        this.setCoords( canvas.elem.width, canvas.elem.height, minPhysPx, "coordsForDraw" ); // запишем координаты кнопок для отрисовки на холсте по физическим координатам 
+        this.setCoords( canvas.elem.clientWidth, canvas.elem.clientHeight, minCssPx, "coordsForMouse" );
+        this.button( canvas );
+        this.text( canvas, minPhysPx );
 
     }
-    private button( canvas: any, min: number ){
+    private button( canvas: any ){
 
         canvas.ctx.save();
-        canvas.ctx.lineWidth = this.currCoords.borderWidth;
+        canvas.ctx.lineWidth = this.coordsForDraw.borderWidth;
         canvas.ctx.strokeStyle = this.borderColor;
         canvas.ctx.fillStyle = this.buttonColor;
         canvas.ctx.beginPath();
-        canvas.ctx.rect( this.currCoords.xpos , this.currCoords.ypos , this.currCoords.w , this.currCoords.h );
+        canvas.ctx.rect( this.coordsForDraw.xpos , this.coordsForDraw.ypos , this.coordsForDraw.w , this.coordsForDraw.h );
         canvas.ctx.fill();
         canvas.ctx.stroke();
         canvas.ctx.restore();
@@ -54,16 +59,16 @@ class Button {
         canvas.ctx.strokeStyle = this.fontColor;
         canvas.ctx.lineWidth = this.fontWeight;
         canvas.ctx.font = `${this.fontSizeRatio * min }px ${this.fontFamily}`; 
-        canvas.ctx.strokeText( this.fontText, this.currCoords.xpos + (this.currCoords.w / 2) , this.currCoords.ypos + (this.currCoords.h / 2) );
+        canvas.ctx.strokeText( this.fontText, this.coordsForDraw.xpos + (this.coordsForDraw.w / 2) , this.coordsForDraw.ypos + (this.coordsForDraw.h / 2) );
         canvas.ctx.restore();
     }
-    private setCoords( canvas: any, min: number ){
+    private setCoords( canvasWidth: number, canvasHeight: number, min: number, containerCoords: string ){
 
-        this.currCoords.w = min * this.wRatio;
-        this.currCoords.h = min * this.hRatio;        
-        this.currCoords.xpos = (canvas.elem.width * this.xRatio) - (this.currCoords.w / 2) ;
-        this.currCoords.ypos = (canvas.elem.height * this.yRatio) - (this.currCoords.h / 2) ;
-        this.currCoords.borderWidth = this.borderWidthRatio * min;
+        this[containerCoords].w = min * this.wRatio;
+        this[containerCoords].h = min * this.hRatio;        
+        this[containerCoords].xpos = (canvasWidth * this.xRatio) - (this[containerCoords].w / 2) ;
+        this[containerCoords].ypos = (canvasHeight * this.yRatio) - (this[containerCoords].h / 2) ;
+        this[containerCoords].borderWidth = this.borderWidthRatio * min;
 
     }
 }

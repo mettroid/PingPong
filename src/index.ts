@@ -41,15 +41,15 @@ function loop(){
             //console.log(window.devicePixelRatio);
             switch( game.phase ){
                 case "screen_saver":           
-                 canvas.elem.width = canvas.elem.clientWidth;
-                 canvas.elem.height = canvas.elem.clientHeight;             
+                 canvas.elem.width = pixelRatio * canvas.elem.clientWidth;
+                 canvas.elem.height = pixelRatio * canvas.elem.clientHeight;     
+                 console.log(canvas.elem.clientWidth + " " + pixelRatio);        
             canvas.ctx.beginPath();
             canvas.ctx.arc( 100 , 100, 25, 0, Math.PI*2 );
             canvas.ctx.stroke();
-                    min = Math.min( canvas.elem.width, canvas.elem.height );
-                    buttonEasy.draw( canvas, min );
-                    buttonNormal.draw( canvas, min );
-                    buttonDifficult.draw( canvas, min );
+                    buttonEasy.draw( canvas );
+                    buttonNormal.draw( canvas );
+                    buttonDifficult.draw( canvas );
                 break;
                 case "a_game":
                     canvas.elem.width = pixelRatio * canvas.elem.clientWidth;
