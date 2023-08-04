@@ -24,6 +24,13 @@ function loop(){
         let correction: number;
         let fps: number;
         let min: number;
+        let pixelRatio: number;
+        let gameWidth: number;
+        let gameHeight: number;
+        let scaleToFitX: number;
+        let scaleToFitY: number;
+        let currentScreenRatio: number;
+        let optimRatio: number;
         function frameLoop( currTime: DOMHighResTimeStamp ): void {
             myReq = window.requestAnimationFrame(frameLoop);
 
@@ -31,51 +38,57 @@ function loop(){
             correction = deltaTime / 1000;      //получаем разницу в секундах, с помощью этого коэфициента будем стабилизировать скорость игры
             fps = 1 / correction;      // получим fps
             
-            let pixelRatio = window.devicePixelRatio; //отношение разрешения дисплея текущего устройства в физических пикселях к разрешению в логических (CSS) пикселях
+            pixelRatio = window.devicePixelRatio; //отношение разрешения дисплея текущего устройства в физических пикселях к разрешению в логических (CSS) пикселях
 
-            let colDepth = window.screen.colorDepth;  // глубина цвета обычно 24
-            let pixDepth = window.screen.pixelDepth  // глудина битов на пиксель
+            //let colDepth = window.screen.colorDepth;  // глубина цвета обычно 24
+            //let pixDepth = window.screen.pixelDepth  // глудина битов на пиксель
             //console.log(pixelRatio + " " + canvas.elem.clientWidth);
             //console.log(colDepth);
             //console.log(pixDepth);
             //console.log(window.devicePixelRatio);
+            canvas.ctx.clearRect( 0, 0, canvas.elem.width, canvas.elem.height);
             switch( game.phase ){
                 case "screen_saver":           
-                 canvas.elem.width = pixelRatio * canvas.elem.clientWidth;
-                 canvas.elem.height = pixelRatio * canvas.elem.clientHeight;     
-                 console.log(canvas.elem.clientWidth + " " + pixelRatio);        
-            canvas.ctx.beginPath();
-            canvas.ctx.arc( 100 , 100, 25, 0, Math.PI*2 );
-            canvas.ctx.stroke();
+                    canvas.elem.style.width = document.documentElement.clientWidth + "px";
+                    canvas.elem.style.height = document.documentElement.clientHeight + "px";
+                    canvas.elem.width = pixelRatio * document.documentElement.clientWidth;  // Важно использовать document.documentElement.clientWidth а не innerWidth -(глючит при повороте экрана)
+                    canvas.elem.height = pixelRatio * document.documentElement.clientHeight;  
+           
                     buttonEasy.draw( canvas );
                     buttonNormal.draw( canvas );
                     buttonDifficult.draw( canvas );
+            
                 break;
-                case "a_game":
-                    canvas.elem.width = pixelRatio * canvas.elem.clientWidth;
-                    canvas.elem.height = pixelRatio * canvas.elem.clientHeight; 
-                    //console.log(canvas.defaultWidth / canvas.elem.width);
+                case "a_game":                   
+                    gameWidth = document.documentElement.clientWidth * pixelRatio;
+                    gameHeight = document.documentElement.clientHeight * pixelRatio;
+                    scaleToFitX = gameWidth / 1920;
+                    scaleToFitY = gameHeight / 1080;
 
-                    var gameWidth = canvas.elem.width;
-                    var gameHeight = canvas.elem.height;
-                    var scaleToFitX = gameWidth / 1920;
-                    var scaleToFitY = gameHeight / 1080;
-                   
-                    var currentScreenRatio = gameWidth / gameHeight;
-                    var optimRatio = Math.min(scaleToFitX, scaleToFitY);
-                   
-                    if(currentScreenRatio >= 1.77){
-                        console.log(currentScreenRatio);
+                    currentScreenRatio = gameWidth / gameHeight;   // соотношение экрана
+                    optimRatio = Math.min(scaleToFitX, scaleToFitY); // минимальный коэф масштаба
+                    
+                    if( currentScreenRatio >= 1.77 && currentScreenRatio <= 1.79 ){
+                         canvas.elem.width = gameWidth;
+                         canvas.elem.style.width = document.documentElement.clientWidth + "px";  
+                         
+                         canvas.elem.height = gameHeight;
+                         canvas.elem.style.height = document.documentElement.clientHeight + "px";   
+
+                    } else {
+                        canvas.elem.width = 1920 * optimRatio;
+                        canvas.elem.style.width = canvas.elem.width / pixelRatio + "px";  
+                        canvas.elem.height = 1080 * optimRatio;
+                        canvas.elem.style.height = canvas.elem.height / pixelRatio  + "px";                         
                     }
 
-                    canvas.ctx.scale( optimRatio , optimRatio );
+                    canvas.ctx.save();      // Ни css размеры canvas.clientWidth clientHeight ни размеры буфера canvas.width height не меняются при scale
+                    canvas.ctx.scale( optimRatio , optimRatio ); // масштабируем до физического разрешения, чисто координаты рисунков, сам  canvas не масштабится
                     
-                    canvas.ctx.beginPath();
-                    canvas.ctx.arc( 100 , 100, 25, 0, Math.PI*2 );
-                    canvas.ctx.stroke();
                     paddleLeft.draw( canvas.ctx );
                     paddleRight.draw( canvas.ctx );
                     canvas.ctx.restore();
+                    
                 break;
                 case "game_over":
 
@@ -85,7 +98,7 @@ function loop(){
                 break;
             }
 
-            canvas.ctx.restore();
+            
             
             lastUpdate = currTime;
         }
@@ -111,5 +124,6 @@ function init(): void {
         document.addEventListener('resize', function(){
 
         });
+
         loop();
 }

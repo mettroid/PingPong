@@ -61,7 +61,7 @@ class EventsMenu {
         return detect;      
     }
     private getDetectBtn( mouse: { x: number, y: number }, btn: string, eventType: string ): boolean {
-                    console.log( mouse.x );
+                    //console.log( mouse.x );
                     let detect: boolean = (  mouse.x > this[btn].coordsForMouse.xpos
                                           && mouse.x < this[btn].coordsForMouse.xpos + this[btn].coordsForMouse.w
                                           && mouse.y > this[btn].coordsForMouse.ypos

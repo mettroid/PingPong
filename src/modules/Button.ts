@@ -1,8 +1,8 @@
 class Button {
     [index: string]: any;
     public tempColor = '';
-    public coordsForDraw: any = {};
-    public coordsForMouse: any = {};
+    public coordsForDraw: any = {};  // координаты по физическим пикселям для рисования
+    public coordsForMouse: any = {}; // координаты по css пикселям для координат мыши
     constructor( readonly id: string, 
                  public xRatio: number, 
                  public yRatio: number, 

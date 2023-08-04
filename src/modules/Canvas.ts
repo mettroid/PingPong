@@ -18,17 +18,8 @@ class Canvas {
             this.elem = document.createElement('canvas');
             this.elem.id = this.id;
             this.elem.classList.add('body__canvas');
-            
-            //this.elem.style.margin = "0 50px";
-            this.elem.style.border = "1px solid black";
-            this.elem.style.background = this.color;
-            this.elem.style.width = "100vw";
-            this.elem.style.height = "100vh";
             this.ctx = this.elem.getContext('2d') as CanvasRenderingContext2D;
-            this.parent.append(this.elem); 
-            let dpr: number = window.devicePixelRatio;
-            this.elem.width = dpr * this.elem.clientWidth;
-            this.elem.height = dpr * this.elem.clientHeight;
+            this.parent.append(this.elem);
         }
         public resize(){
             //console.log(this.elem.clientWidth);
