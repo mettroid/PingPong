@@ -3,6 +3,7 @@ import "./style.scss";
 import { Canvas } from './modules/Canvas';
 import { Button } from './modules/Button';
 import { Paddle } from './modules/Paddle';
+import { Ball } from "./modules/Ball";
 import { Game } from './modules/Game';
 import { EventsMenu } from "./modules/EventsMenu";
 import { EventsResize } from "./modules/EventsResize";
@@ -10,8 +11,8 @@ import { EventsResize } from "./modules/EventsResize";
 const canvas = new Canvas('myCanvas', document.body, "rgb(4, 255, 242)");
 
 let paddleLeft: Paddle, paddleRight: Paddle;
+let ball: Ball; 
 let buttonEasy: Button, buttonNormal: Button, buttonDifficult: Button;
-let ball: any;
 let myReq: DOMHighResTimeStamp;
 let game: Game;
 let eventsMenu: EventsMenu;
@@ -116,6 +117,8 @@ function loop(){
 function init(): void {
         canvas.create();
 
+        ball = new Ball( canvas.defaultWidth / 2, canvas.defaultHeight / 2, 2, 3, 20 );
+        //console.log(ball.radius);
         paddleLeft = new Paddle("paddleLeft", 0, (canvas.defaultHeight - 100) / 2, 30, 100, "rgb(0, 62, 248)");                         // создадим ракетки по координатам 1920 x 1080
         paddleRight = new Paddle("paddleRight", canvas.defaultWidth - 30, (canvas.defaultHeight - 100) / 2, 30, 100, "rgb(0, 62, 248)");
 
@@ -135,7 +138,7 @@ function init(): void {
         window.addEventListener( 'resize', eventsRisize );  // этот обработчик пропускает событие resise только когда готов requestAnimationFrame
         window.addEventListener( 'optimizedResize', eventsRisize );
         
-        eventsRisize.resize();
+        eventsRisize.resize(); // вызовем первый раз , не дожидаясь изменения размера экрана, что-бы установить размеры холста
 
         loop();
 }
